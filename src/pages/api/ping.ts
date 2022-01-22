@@ -3,10 +3,13 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { connect } from "../../utils/database";
+//* Defino el Tipo de dato que espero Devolver
+type Data = {
+  message: string;
+  time: string;
+};
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
- const response = await connect.query("SELECT NOW()");
- console.log(response);
- 
- return res.json({ message: "pong" });
+export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const response = await connect.query("SELECT NOW()");
+  return res.json({ message: "pong", time: response.rows[0].now });
 };
